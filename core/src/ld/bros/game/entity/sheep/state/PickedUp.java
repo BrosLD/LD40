@@ -15,9 +15,6 @@ public class PickedUp extends EntityState<Sheep> {
         if(manager.pickedUp) {
             manager.alignToPlayer();
             manager.addOffset();
-        } else {
-            // not picked up anymore for some reasons -> back to idle
-            manager.set(new Idle(manager));
         }
 
         manager.move();
