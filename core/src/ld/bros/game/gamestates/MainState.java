@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import ld.bros.game.entity.EntityManager;
-import ld.bros.game.entity.Player;
+import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.GameStateManager;
 import ld.bros.game.main.State;
 

@@ -1,7 +1,11 @@
 package ld.bros.game.main;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +24,33 @@ public class Res {
     // map for (dirty) quick loading an image
     private Map<String, TextureRegion> quickRegions;
 
+    // fonts
+    private static Map<String, BitmapFont> fonts = new HashMap<String, BitmapFont>(10);
+
     private Res() {
         quickRegions = new HashMap<String, TextureRegion>();
+
+        loadFonts();
     }
 
+    private void loadFonts() {
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 18;
+        params.color = Color.BLACK;
+//        params.borderWidth = 2f;
+//        params.borderColor = Color.WHITE;
+        generateFont("default", "aldothe_apache.ttf", params);
+    }
+
+    private void generateFont(String name, String path, FreeTypeFontGenerator.FreeTypeFontParameter params) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/" + path));
+        fonts.put(name, generator.generateFont(params));
+        generator.dispose();
+    }
+
+    public BitmapFont font(String which) {
+        return fonts.get(which);
+    }
 
     public TextureRegion quick(String internal) {
         TextureRegion region = quickRegions.get(internal);
@@ -43,5 +70,10 @@ public class Res {
         // dispose quick loaded regions
         for(Map.Entry<String, TextureRegion> entry : quickRegions.entrySet())
             entry.getValue().getTexture().dispose();
+
+        // dispose all fonts in map
+        for(Map.Entry<String, BitmapFont> entry : fonts.entrySet()) {
+            entry.getValue().dispose();
+        }
     }
 }

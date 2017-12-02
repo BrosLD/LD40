@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import ld.bros.game.gamestates.MainState;
 import ld.bros.game.main.GameStateManager;
 import ld.bros.game.main.Res;
+import ld.bros.game.main.TextDisplayer;
 
 public class LudumDare40 extends ApplicationAdapter {
 
@@ -40,6 +41,7 @@ public class LudumDare40 extends ApplicationAdapter {
 	}
 
 	public void update(float delta) {
+		TextDisplayer.get().print("FPS: " + Gdx.graphics.getFramesPerSecond());
 		gsm.update(delta);
 	}
 
@@ -53,6 +55,8 @@ public class LudumDare40 extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		gsm.render(batch);
+
+		TextDisplayer.get().render(batch);
 		batch.end();
 	}
 

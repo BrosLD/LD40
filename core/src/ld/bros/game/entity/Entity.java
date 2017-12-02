@@ -27,7 +27,7 @@ public abstract class Entity {
 
     public abstract void update(float delta);
 
-    protected void move() {
+    public void move() {
 
         vertical = false;
         horizontal = false;
