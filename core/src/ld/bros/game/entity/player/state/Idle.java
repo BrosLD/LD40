@@ -14,7 +14,7 @@ public class Idle extends EntityState<Player> {
     @Override
     public void update(float delta) {
         // apply gravity
-        manager.vel.y = -9f;
+        manager.vel.y = manager.GRAVITY;
         manager.vel.x = 0f;
 
         if(Controls.left() || Controls.right()) {
@@ -22,11 +22,26 @@ public class Idle extends EntityState<Player> {
             manager.set(new Run(manager));
         }
 
+        // check if we're jumping
+        if(Controls.jump()) {
+            manager.set(new Jump(manager));
+        }
+
         manager.move();
+
+        // if not on ground -> falling
+        if(!manager.onGround()) {
+            manager.set(new Fall(manager));
+        }
     }
 
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(manager.image, manager.pos.x, manager.pos.y);
+    }
+
+    @Override
+    public String toString() {
+        return "Idle";
     }
 }

@@ -10,6 +10,7 @@ import ld.bros.game.entity.player.state.Idle;
 import ld.bros.game.main.Res;
 import ld.bros.game.main.State;
 import ld.bros.game.main.StateManager;
+import ld.bros.game.main.TextDisplayer;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -19,6 +20,12 @@ public class Player extends Entity implements StateManager {
     // PROPERTIES
     public TextureRegion image;
     public float speed = 5f;
+
+    public float jumpSpeed = 10f;
+    public final float MAX_JUMP_TIME = 0.25f;
+    public final float MAX_HIGH_TIME = 0.07f;
+
+    public final float GRAVITY = -9f;
 
     //
     private Deque<State<?>> states;
@@ -53,6 +60,7 @@ public class Player extends Entity implements StateManager {
 //        move();
 
         current().update(delta);
+        TextDisplayer.get().print("Player::" + current());
     }
 
     @Override
@@ -85,5 +93,9 @@ public class Player extends Entity implements StateManager {
     @Override
     public State<?> current() {
         return states.peekFirst();
+    }
+
+    public boolean onGround() {
+        return vertical;
     }
 }

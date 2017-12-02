@@ -5,38 +5,28 @@ import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
 
-public class Run extends EntityState<Player> {
+public class Fall extends EntityState<Player> {
 
-    public Run(Player manager) {
+    public Fall(Player manager) {
         super(manager);
     }
 
     @Override
     public void update(float delta) {
-        // apply gravity
-        manager.vel.y = manager.GRAVITY;
-
         // handle user input
         if(Controls.left())
             manager.vel.x = -manager.speed;
         else if(Controls.right())
             manager.vel.x = manager.speed;
-        else {
-            // switch to Idle-state
-            manager.set(new Idle(manager));
-        }
+        else
+            manager.vel.x = 0f;
 
-        // check if we're jumping
-        if(Controls.jump()) {
-            manager.set(new Jump(manager));
-        }
-
-        // apply velocity
+        manager.vel.y = manager.GRAVITY;
         manager.move();
 
-        // if not on ground -> falling
-        if(!manager.onGround()) {
-            manager.set(new Fall(manager));
+        // stop falling if we're on ground
+        if(manager.onGround()) {
+            manager.set(new Idle(manager));
         }
     }
 
@@ -47,6 +37,6 @@ public class Run extends EntityState<Player> {
 
     @Override
     public String toString() {
-        return "Run";
+        return "Fall";
     }
 }

@@ -24,7 +24,7 @@ public class TextDisplayer {
     private final float x = 15f;
     private final float y = LudumDare40.HEIGHT - 15f;
 
-    private final float padding = 25f;
+    private final float padding = 5f;
     private final float lineHeight;
 
     private BitmapFont font;
