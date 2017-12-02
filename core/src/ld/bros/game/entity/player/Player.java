@@ -23,7 +23,8 @@ public class Player extends Entity implements StateManager {
 
     public float jumpSpeed = 10f;
     public final float MAX_JUMP_TIME = 0.25f;
-    public final float MAX_HIGH_TIME = 0.07f;
+    public final float MAX_DOUBLE_JUMP_TIME = 0.17f;
+    public final float MAX_HIGH_TIME = 0.08f;
 
     public final float GRAVITY = -9f;
 

@@ -7,6 +7,8 @@ import ld.bros.game.main.Controls;
 
 public class Fall extends EntityState<Player> {
 
+    private boolean doubleJump;
+
     public Fall(Player manager) {
         super(manager);
     }
@@ -28,6 +30,13 @@ public class Fall extends EntityState<Player> {
         if(manager.onGround()) {
             manager.set(new Idle(manager));
         }
+
+        // double jump
+        if(!doubleJump && Controls.jumpTapped()) {
+            manager.push(new DoubleJump(manager));
+            doubleJump = true;
+        }
+
     }
 
     @Override

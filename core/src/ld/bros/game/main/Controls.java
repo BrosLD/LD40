@@ -18,6 +18,10 @@ public class Controls {
         return Gdx.input.isKeyPressed(Input.Keys.X);
     }
 
+    public static boolean jumpTapped() {
+        return Gdx.input.isKeyJustPressed(Input.Keys.X);
+    }
+
     public static boolean pick() {
         return Gdx.input.isKeyPressed(Input.Keys.C);
     }

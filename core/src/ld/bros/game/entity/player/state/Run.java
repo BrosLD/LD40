@@ -27,7 +27,7 @@ public class Run extends EntityState<Player> {
         }
 
         // check if we're jumping
-        if(Controls.jump()) {
+        if(Controls.jumpTapped()) {
             manager.set(new Jump(manager));
         }
 
