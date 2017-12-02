@@ -18,6 +18,9 @@ public abstract class Entity {
     protected boolean horizontal;
     protected boolean vertical;
 
+    // if we hit something beneath
+    protected boolean onGround;
+
     public Entity(EntityManager manager) {
         this.manager = manager;
         this.manager.add(this);
@@ -32,6 +35,7 @@ public abstract class Entity {
 
         vertical = false;
         horizontal = false;
+        onGround = false;
 
         int y_limit = (int)Math.abs(vel.y);
         int x_limit = (int)Math.abs(vel.x);
@@ -68,8 +72,12 @@ public abstract class Entity {
             if(!manager.checkCollision(this, (int)pos.x, (int)pos.y + Utils.direction(vel.y))) {
                 pos.y += Utils.direction(vel.y);
             } else {
+                if(Utils.direction(vel.y) == -1)
+                    onGround = true;
+
                 vel.y = 0f;
                 vertical = true;
+
                 break;
             }
         }

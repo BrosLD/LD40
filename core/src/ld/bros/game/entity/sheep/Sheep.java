@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.Entity;
 import ld.bros.game.entity.EntityManager;
 import ld.bros.game.entity.player.Player;
+import ld.bros.game.entity.sheep.state.Fall;
 import ld.bros.game.entity.sheep.state.Idle;
 import ld.bros.game.entity.sheep.state.PickedUp;
 import ld.bros.game.entity.sheep.state.ThrowAway;
@@ -26,12 +27,12 @@ public class Sheep extends Entity implements StateManager {
     public final float THROW_Y_FORCE = 6f;
     public final float THROW_DAMPING = -25f;
 
+    public int sheepLayerNumber;
+    public float pickedUpDelayedVelocity = 4f;
+    public float pickedUpOffset = 3f;
+
     //
     private Player player;
-
-    private int sheepLayerNumber;
-    private float pickedUpDelayedVelocity = 4f;
-    private float pickedUpOffset = 3f;
 
     private Deque<State<?>> states;
 
@@ -90,9 +91,25 @@ public class Sheep extends Entity implements StateManager {
         sheepLayerNumber = player.getNumberOfSheep();
 
         set(new PickedUp(this));
-
-        // align position to player
         alignToPlayer();
+    }
+
+    /**
+     * Whether this Sheep can be picked up or not.
+     */
+    public boolean canBePickedUp(Player player) {
+        // align position to player
+        float newX = player.pos.x;
+        float newY = player.height + player.pos.y + pickedUpOffset;
+        newY += pos.y += height * sheepLayerNumber;
+
+        boolean check = manager.checkCollision(this, (int)newX, (int)newY);
+        if(check) {
+            // there will be a collision -> not able to pick up this sheep
+            return false;
+        }
+
+        return true;
     }
 
     public void alignToPlayer() {
@@ -118,10 +135,14 @@ public class Sheep extends Entity implements StateManager {
         set(new ThrowAway(this));
     }
 
-    public void addOffset() {
-        // add little offset in x direction to achieve 'tower-collapsing' effect
-        float dir = Utils.direction(player.vel.x);
-        vel.x = (dir * pickedUpDelayedVelocity) * -1 * sheepLayerNumber;
+    public void fallDown() {
+        pickedUp = false;
+
+        // remove this sheep from players list
+        player.removeSheep(this);
+        player = null;
+
+        set(new Fall(this));
     }
 
     public boolean hitWall() {
@@ -129,6 +150,10 @@ public class Sheep extends Entity implements StateManager {
     }
 
     public boolean hitFloor() {
-        return vertical;
+        return onGround;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

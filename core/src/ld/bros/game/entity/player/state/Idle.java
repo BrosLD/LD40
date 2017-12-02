@@ -32,7 +32,7 @@ public class Idle extends PlayerState {
             manager.set(new Fall(manager));
         }
 
-        if(Controls.pick() && manager.entityContact()) {
+        if(Controls.pick() && manager.canPickUp()) {
             // pick up
             manager.push(new Pick(manager));
         }

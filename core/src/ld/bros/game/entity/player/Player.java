@@ -105,9 +105,29 @@ public class Player extends Entity implements StateManager {
         if(other != null && other instanceof Sheep) {
             Sheep s = (Sheep) other;
 
-            s.pickUp(this);
-            pickedSheep.add(s);
+            // only pick up sheep if it's in its Idle state
+            if(s.current() instanceof ld.bros.game.entity.sheep.state.Idle) {
+                // check if sheep can be picked up
+                if(s.canBePickedUp(this))
+                    s.pickUp(this);
+                    pickedSheep.add(s);
+            }
         }
+    }
+
+    public boolean canPickUp() {
+        Entity other = manager.collisionWithEntity(this);
+        if(other != null && other instanceof Sheep) {
+            Sheep s = (Sheep) other;
+
+            // only pick up sheep if it's in its Idle state
+            if(s.current() instanceof ld.bros.game.entity.sheep.state.Idle) {
+                // check if sheep can be picked up
+                return s.canBePickedUp(this);
+            }
+        }
+
+        return false;
     }
 
     public void throwEntities() {
@@ -120,5 +140,9 @@ public class Player extends Entity implements StateManager {
 
     public int getNumberOfSheep() {
         return pickedSheep.size();
+    }
+
+    public void removeSheep(Sheep sheep) {
+        pickedSheep.remove(sheep);
     }
 }

@@ -32,6 +32,13 @@ public class EntityManager {
         }
     }
 
+    /**
+     * Checks if there will be a collision if given entity will be placed to the given coordinates.
+     * @param e the entity to check for
+     * @param x_pos the x coordinate
+     * @param y_pos the y coordinate
+     * @return true if there will be a collision. False otherwise.
+     */
     public boolean checkCollision(Entity e, int x_pos, int y_pos) {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
 

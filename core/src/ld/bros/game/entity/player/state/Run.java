@@ -1,6 +1,5 @@
 package ld.bros.game.entity.player.state;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
 
@@ -38,7 +37,7 @@ public class Run extends PlayerState {
             manager.set(new Fall(manager));
         }
 
-        if(manager.entityContact() && Controls.pick()) {
+        if(Controls.pick() && manager.canPickUp()) {
             // pick up
             manager.push(new Pick(manager));
         }

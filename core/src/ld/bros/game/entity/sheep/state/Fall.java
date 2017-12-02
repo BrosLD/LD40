@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.sheep.Sheep;
 
-public class Idle extends EntityState<Sheep> {
+public class Fall extends EntityState<Sheep> {
 
-    public Idle(Sheep manager) {
+    public Fall(Sheep manager) {
         super(manager);
     }
 
@@ -18,8 +18,12 @@ public class Idle extends EntityState<Sheep> {
     @Override
     public void update(float delta) {
         manager.vel.y = manager.GRAVITY;
-
         manager.move();
+
+        // sheep on ground -> back to idle
+        if(manager.hitFloor()) {
+            manager.set(new Idle(manager));
+        }
     }
 
     @Override
@@ -29,6 +33,6 @@ public class Idle extends EntityState<Sheep> {
 
     @Override
     public String toString() {
-        return "Idle";
+        return "Fall";
     }
 }
