@@ -1,11 +1,10 @@
 package ld.bros.game.entity.player.state;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
 
-public class Fall extends EntityState<Player> {
+public class Fall extends PlayerState {
 
     private boolean doubleJump;
 
@@ -37,6 +36,7 @@ public class Fall extends EntityState<Player> {
             doubleJump = true;
         }
 
+        super.update(delta);
     }
 
     @Override

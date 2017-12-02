@@ -2,6 +2,7 @@ package ld.bros.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import ld.bros.game.main.Utils;
 
 public abstract class Entity {
 
@@ -10,8 +11,8 @@ public abstract class Entity {
     public Vector2 pos;
     public Vector2 vel;
 
-    protected float width;
-    protected float height;
+    public float width;
+    public float height;
 
     // whether we hit something horizontal or vertical
     protected boolean horizontal;
@@ -40,19 +41,19 @@ public abstract class Entity {
 
 
             // left and right
-            if(!manager.checkCollision(this, (int)pos.x + direction(vel.x), (int)pos.y)) {
-                pos.x += direction(vel.x);
+            if(!manager.checkCollision(this, (int)pos.x + Utils.direction(vel.x), (int)pos.y)) {
+                pos.x += Utils.direction(vel.x);
             }
             // upper-slopes \ and /
-            else if(manager.checkCollision(this, (int)pos.x + direction(vel.x), (int)pos.y)
-                    && (!manager.checkCollision(this, (int)pos.x + direction(vel.x), (int)pos.y+1))
-                    || !manager.checkCollision(this, (int)pos.x + direction(vel.x), (int)pos.y+2)) {
+            else if(manager.checkCollision(this, (int)pos.x + Utils.direction(vel.x), (int)pos.y)
+                    && (!manager.checkCollision(this, (int)pos.x + Utils.direction(vel.x), (int)pos.y+1))
+                    || !manager.checkCollision(this, (int)pos.x + Utils.direction(vel.x), (int)pos.y+2)) {
                 pos.y += 1;
             }
             // lower-slopes (going down)
-            else if(manager.checkCollision(this, (int)pos.x + direction(vel.x), (int)pos.y)
-                    && manager.checkCollision(this, (int)pos.x + direction(vel.x), (int)pos.y-1)
-                    && !manager.checkCollision(this, (int)pos.x + direction(vel.x), (int)pos.y-2)) {
+            else if(manager.checkCollision(this, (int)pos.x + Utils.direction(vel.x), (int)pos.y)
+                    && manager.checkCollision(this, (int)pos.x + Utils.direction(vel.x), (int)pos.y-1)
+                    && !manager.checkCollision(this, (int)pos.x + Utils.direction(vel.x), (int)pos.y-2)) {
                 pos.y -= 1;
             }
             else {
@@ -64,8 +65,8 @@ public abstract class Entity {
 
         // check in y direction
         for(int vy = 0; vy < y_limit; vy++) {
-            if(!manager.checkCollision(this, (int)pos.x, (int)pos.y + direction(vel.y))) {
-                pos.y += direction(vel.y);
+            if(!manager.checkCollision(this, (int)pos.x, (int)pos.y + Utils.direction(vel.y))) {
+                pos.y += Utils.direction(vel.y);
             } else {
                 vel.y = 0f;
                 vertical = true;
@@ -75,10 +76,4 @@ public abstract class Entity {
     }
 
     public abstract void render(SpriteBatch batch);
-
-    private int direction(float val) {
-        if(val > 0) return 1;
-        if(val < 0) return -1;
-        return 0;
-    }
 }

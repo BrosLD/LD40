@@ -1,7 +1,9 @@
 package ld.bros.game.main;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import ld.bros.game.LudumDare40;
 
 import java.util.ArrayList;
@@ -20,6 +22,9 @@ public class TextDisplayer {
         return instance;
     }
 
+    private OrthographicCamera camera;
+    private Matrix4 previous;
+
     private List<String> messages;
     private final float x = 15f;
     private final float y = LudumDare40.HEIGHT - 15f;
@@ -34,18 +39,25 @@ public class TextDisplayer {
 
         font = Res.get().font("default");
         lineHeight = font.getCapHeight();
+
+        camera = new OrthographicCamera(LudumDare40.WIDTH, LudumDare40.HEIGHT);
+        camera.setToOrtho(false);
     }
 
     public void render(SpriteBatch batch) {
+        previous = batch.getProjectionMatrix();
+        batch.setProjectionMatrix(camera.combined);
+
         for(int i = 0; i < messages.size(); i++) {
             font.draw(batch, messages.get(i), x, y - (padding+lineHeight)*i);
         }
 
         messages.clear();
+
+        batch.setProjectionMatrix(previous);
     }
 
     public void print(String msg) {
         messages.add(msg);
     }
-
 }

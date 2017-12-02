@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,41 @@ public class EntityManager {
         }
 
         return false;
+    }
+
+    /**
+     * Checks whether the given entity collides with another one inside the entity list and returns it.
+     * Returns null, when there was no collision.
+     * @param which the entity to check for.
+     * @return the collided entity. null if there was no collision.
+     */
+    public Entity collisionWithEntity(Entity which) {
+
+        Rectangle a = new Rectangle();
+        a.x = which.pos.x;
+        a.y = which.pos.y;
+        a.width = which.width;
+        a.height = which.height;
+
+        Rectangle other = new Rectangle();
+
+        for(int i = 0; i < entityList.size(); i++) {
+            // skip if current element is which
+            // Otherwise we will always collide with the given entity itself
+            if(entityList.get(i) == which)
+                continue;
+
+            other.x = entityList.get(i).pos.x;
+            other.y = entityList.get(i).pos.y;
+            other.width = entityList.get(i).width;
+            other.height = entityList.get(i).height;
+
+            if(a.overlaps(other)) {
+                return entityList.get(i);
+            }
+        }
+
+        return null;
     }
 
     public void setMap(TiledMap map) {

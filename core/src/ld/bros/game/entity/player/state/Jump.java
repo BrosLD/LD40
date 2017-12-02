@@ -1,11 +1,9 @@
 package ld.bros.game.entity.player.state;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
 
-public class Jump extends EntityState<Player> {
+public class Jump extends PlayerState {
 
     private float jumpTimer;
     private float highTimer;
@@ -52,11 +50,8 @@ public class Jump extends EntityState<Player> {
         }
 
         manager.move();
-    }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(manager.image, manager.pos.x, manager.pos.y);
+        super.update(delta);
     }
 
     @Override

@@ -1,11 +1,10 @@
 package ld.bros.game.entity.player.state;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
 
-public class Run extends EntityState<Player> {
+public class Run extends PlayerState {
 
     public Run(Player manager) {
         super(manager);
@@ -38,11 +37,13 @@ public class Run extends EntityState<Player> {
         if(!manager.onGround()) {
             manager.set(new Fall(manager));
         }
-    }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(manager.image, manager.pos.x, manager.pos.y);
+        if(manager.entityContact() && Controls.pick()) {
+            // pick up
+            manager.push(new Pick(manager));
+        }
+
+        super.update(delta);
     }
 
     @Override
