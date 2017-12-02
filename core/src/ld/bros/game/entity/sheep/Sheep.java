@@ -5,16 +5,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.Entity;
 import ld.bros.game.entity.EntityManager;
 import ld.bros.game.entity.player.Player;
-import ld.bros.game.entity.sheep.state.Fall;
-import ld.bros.game.entity.sheep.state.Idle;
-import ld.bros.game.entity.sheep.state.PickedUp;
-import ld.bros.game.entity.sheep.state.ThrowAway;
+import ld.bros.game.entity.sheep.state.*;
 import ld.bros.game.main.*;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class Sheep extends Entity implements StateManager {
+
+    private static int id = 0;
+    private int localId;
 
     // PROPERTIES
     public TextureRegion image;
@@ -31,6 +31,10 @@ public class Sheep extends Entity implements StateManager {
     public float pickedUpDelayedVelocity = 4f;
     public float pickedUpOffset = 3f;
 
+    public float speed = 4f;
+
+    public float targetX;
+
     //
     private Player player;
 
@@ -38,6 +42,8 @@ public class Sheep extends Entity implements StateManager {
 
     public Sheep(EntityManager manager) {
         super(manager);
+
+        localId = ++id;
 
         states = new ArrayDeque<State<?>>();
         set(new Idle(this));
@@ -51,7 +57,11 @@ public class Sheep extends Entity implements StateManager {
     public void update(float delta) {
         current().update(delta);
 
-        TextDisplayer.get().print(sheepLayerNumber + "# Sheep::" + current());
+        if(localId == 1) {
+            TextDisplayer.get().print("Sheep::" + current());
+            TextDisplayer.get().print("  - Position: " + pos);
+            TextDisplayer.get().print("  - Target  : " + targetX);
+        }
     }
 
     @Override
@@ -155,5 +165,10 @@ public class Sheep extends Entity implements StateManager {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void callSheep(float targetX) {
+        this.targetX = targetX;
+        set(new Call(this));
     }
 }

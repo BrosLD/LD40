@@ -160,4 +160,8 @@ public class EntityManager {
     public void remove(Entity entity) {
         entityList.remove(entity);
     }
+
+    public List<Entity> getEntityList() {
+        return entityList;
+    }
 }

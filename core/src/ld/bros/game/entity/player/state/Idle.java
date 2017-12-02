@@ -37,6 +37,11 @@ public class Idle extends PlayerState {
             manager.push(new Pick(manager));
         }
 
+        if(Controls.callTapped()) {
+            // call sheep
+            manager.set(new Call(manager));
+        }
+
         super.update(delta);
     }
 

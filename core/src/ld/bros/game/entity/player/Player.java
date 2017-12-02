@@ -35,6 +35,8 @@ public class Player extends Entity implements StateManager {
 
     public boolean facingRight;
 
+    public final float CALL_TIME = 1f;
+
     //
     private Deque<State<?>> states;
 
@@ -58,8 +60,8 @@ public class Player extends Entity implements StateManager {
     public void update(float delta) {
         current().update(delta);
         TextDisplayer.get().print("Player::" + current());
-        TextDisplayer.get().print("FacingRight: " + facingRight);
-        TextDisplayer.get().print("#Sheeps: " + getNumberOfSheep());
+        TextDisplayer.get().print("  - FacingRight: " + facingRight);
+        TextDisplayer.get().print("  - #Sheeps: " + getNumberOfSheep());
     }
 
     @Override
@@ -144,5 +146,16 @@ public class Player extends Entity implements StateManager {
 
     public void removeSheep(Sheep sheep) {
         pickedSheep.remove(sheep);
+    }
+
+    public void callSheep() {
+        List<Entity> entities = manager.getEntityList();
+        for(int i = 0; i < entities.size(); i++) {
+            Entity e = entities.get(i);
+            if(e instanceof Sheep) {
+                Sheep s = (Sheep) e;
+                s.callSheep(this.pos.x);
+            }
+        }
     }
 }

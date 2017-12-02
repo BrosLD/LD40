@@ -25,4 +25,8 @@ public class Controls {
     public static boolean pick() {
         return Gdx.input.isKeyPressed(Input.Keys.C);
     }
+
+    public static boolean callTapped() {
+        return Gdx.input.isKeyJustPressed(Input.Keys.V);
+    }
 }
