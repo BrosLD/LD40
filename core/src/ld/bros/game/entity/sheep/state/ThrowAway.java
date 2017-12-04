@@ -1,15 +1,24 @@
 package ld.bros.game.entity.sheep.state;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.sheep.Sheep;
+import ld.bros.game.main.Res;
 
-public class ThrowAway extends EntityState<Sheep> {
+public class ThrowAway extends SheepState {
 
     private boolean hitWall;
 
     public ThrowAway(Sheep manager) {
         super(manager);
+
+        animation = new Animation<TextureRegion>(
+                0,
+                Res.get().getSheepAtlas().findRegions("PickedUp"),
+                Animation.PlayMode.LOOP
+        );
     }
 
     @Override
@@ -21,6 +30,8 @@ public class ThrowAway extends EntityState<Sheep> {
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         if(hitWall)
             manager.vel.x = 0f;
 
@@ -37,11 +48,8 @@ public class ThrowAway extends EntityState<Sheep> {
             manager.vel.set(0f, 0f);
             manager.set(new Idle(manager));
         }
-    }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(manager.image, manager.pos.x, manager.pos.y);
+        handleFacing();
     }
 
     @Override

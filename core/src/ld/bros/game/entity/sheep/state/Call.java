@@ -1,11 +1,14 @@
 package ld.bros.game.entity.sheep.state;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.sheep.Sheep;
+import ld.bros.game.main.Res;
 import ld.bros.game.main.Utils;
 
-public class Call extends EntityState<Sheep> {
+public class Call extends SheepState {
 
     private float target;
     private int direction;
@@ -17,10 +20,18 @@ public class Call extends EntityState<Sheep> {
 
         target = manager.targetX - manager.pos.x;
         direction = Utils.direction(target);
+
+        animation = new Animation<TextureRegion>(
+                0.2f,
+                Res.get().getSheepAtlas().findRegions("Run"),
+                Animation.PlayMode.LOOP
+        );
     }
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         manager.vel.x = direction * manager.speed;
         manager.vel.y = manager.GRAVITY;
 
@@ -42,11 +53,8 @@ public class Call extends EntityState<Sheep> {
             manager.vel.x = 0f;
             manager.set(new Idle(manager));
         }
-    }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(manager.image, manager.pos.x, manager.pos.y);
+        handleFacing();
     }
 
     @Override

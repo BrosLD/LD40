@@ -1,16 +1,28 @@
 package ld.bros.game.entity.player.state;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
+import ld.bros.game.main.Res;
 
 public class Idle extends PlayerState {
 
     public Idle(Player manager) {
         super(manager);
+
+        animation = new Animation<TextureRegion>(
+                0.5f,
+                Res.get().getPlayerAtlas().findRegions( "Idle"),
+                Animation.PlayMode.LOOP
+        );
     }
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         // apply gravity
         manager.vel.y = manager.GRAVITY;
         manager.vel.x = 0f;
@@ -42,7 +54,8 @@ public class Idle extends PlayerState {
             manager.set(new Call(manager));
         }
 
-        super.update(delta);
+        checkPickUp();
+        handleFacing();
     }
 
     @Override

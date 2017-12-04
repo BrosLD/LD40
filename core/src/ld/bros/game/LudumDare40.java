@@ -18,6 +18,7 @@ public class LudumDare40 extends ApplicationAdapter {
 	public static final String TITLE = "Ludum Dare 40";
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
+	public static final int FPS = 60;
 
 	private SpriteBatch batch;
 	private GameStateManager gsm;

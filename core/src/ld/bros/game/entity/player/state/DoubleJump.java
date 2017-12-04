@@ -1,7 +1,10 @@
 package ld.bros.game.entity.player.state;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
+import ld.bros.game.main.Res;
 
 public class DoubleJump extends PlayerState {
 
@@ -11,10 +14,18 @@ public class DoubleJump extends PlayerState {
 
     public DoubleJump(Player manager) {
         super(manager);
+
+        animation = new Animation<TextureRegion>(
+                0,
+                Res.get().getPlayerAtlas().findRegions("Jump"),
+                Animation.PlayMode.NORMAL
+        );
     }
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         // handle user input
         if(Controls.left())
             manager.vel.x = -manager.speed;
@@ -51,7 +62,8 @@ public class DoubleJump extends PlayerState {
 
         manager.move();
 
-        super.update(delta);
+        checkPickUp();
+        handleFacing();
     }
 
     @Override

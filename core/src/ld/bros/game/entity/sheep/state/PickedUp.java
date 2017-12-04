@@ -1,12 +1,15 @@
 package ld.bros.game.entity.sheep.state;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.sheep.Sheep;
+import ld.bros.game.main.Res;
 import ld.bros.game.main.Utils;
 
-public class PickedUp extends EntityState<Sheep> {
+public class PickedUp extends SheepState {
 
     private Vector2 target;
 
@@ -14,10 +17,18 @@ public class PickedUp extends EntityState<Sheep> {
         super(manager);
 
         target = new Vector2();
+
+        animation = new Animation<TextureRegion>(
+                0f,
+                Res.get().getSheepAtlas().findRegions("PickedUp"),
+                Animation.PlayMode.LOOP
+        );
     }
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         if(manager.pickedUp) {
 
 //            manager.alignToPlayer();
@@ -45,11 +56,8 @@ public class PickedUp extends EntityState<Sheep> {
         if(manager.hitWall()) {
             manager.fallDown();
         }
-    }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(manager.image, manager.pos.x, manager.pos.y);
+        handleFacing();
     }
 
     @Override

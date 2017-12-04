@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.width = LudumDare40.WIDTH;
 		config.height = LudumDare40.HEIGHT;
 		config.title = LudumDare40.TITLE;
+		config.foregroundFPS = LudumDare40.FPS;
 
 		new LwjglApplication(new LudumDare40(), config);
 	}

@@ -35,6 +35,8 @@ public class Sheep extends Entity implements StateManager {
 
     public float targetX;
 
+    public boolean facingRight;
+
     //
     private Player player;
 

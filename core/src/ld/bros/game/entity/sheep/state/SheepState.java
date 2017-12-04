@@ -1,19 +1,18 @@
-package ld.bros.game.entity.player.state;
+package ld.bros.game.entity.sheep.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.EntityState;
-import ld.bros.game.entity.player.Player;
-import ld.bros.game.main.Controls;
+import ld.bros.game.entity.sheep.Sheep;
 import ld.bros.game.main.Utils;
 
-public abstract class PlayerState extends EntityState<Player> {
+public abstract class SheepState extends EntityState<Sheep> {
 
     protected Animation<TextureRegion> animation;
     protected float animationTimer;
 
-    public PlayerState(Player manager) {
+    public SheepState(Sheep manager) {
         super(manager);
     }
 
@@ -31,13 +30,6 @@ public abstract class PlayerState extends EntityState<Player> {
             manager.facingRight = false;
         } else if(direction == 1) {
             manager.facingRight = true;
-        }
-    }
-
-    protected void checkPickUp() {
-        // check if player will throw sheeps
-        if(!Controls.pick() && manager.getNumberOfSheep() > 0) {
-            manager.push(new Throwing(manager));
         }
     }
 

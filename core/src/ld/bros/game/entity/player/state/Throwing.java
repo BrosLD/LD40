@@ -1,6 +1,9 @@
 package ld.bros.game.entity.player.state;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.player.Player;
+import ld.bros.game.main.Res;
 
 public class Throwing extends PlayerState {
 
@@ -8,10 +11,18 @@ public class Throwing extends PlayerState {
 
     public Throwing(Player manager) {
         super(manager);
+
+        animation = new Animation<TextureRegion>(
+                0,
+                Res.get().getPlayerAtlas().findRegions("Idle"),
+                Animation.PlayMode.NORMAL
+        );
     }
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         // stop moving
         // manager.vel.set(0f, 0f);
 

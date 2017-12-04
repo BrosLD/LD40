@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
@@ -27,10 +28,16 @@ public class Res {
     // fonts
     private static Map<String, BitmapFont> fonts = new HashMap<String, BitmapFont>(10);
 
+    // atlas
+    private TextureAtlas playerAtlas;
+    private TextureAtlas sheepAtlas;
+
     private Res() {
         quickRegions = new HashMap<String, TextureRegion>();
-
         loadFonts();
+
+        playerAtlas = new TextureAtlas(Gdx.files.internal("images/player.atlas"));
+        sheepAtlas = new TextureAtlas(Gdx.files.internal("images/sheep.atlas"));
     }
 
     private void loadFonts() {
@@ -75,5 +82,17 @@ public class Res {
         for(Map.Entry<String, BitmapFont> entry : fonts.entrySet()) {
             entry.getValue().dispose();
         }
+
+        // dispose atlas
+        playerAtlas.dispose();
+        sheepAtlas.dispose();
+    }
+
+    public TextureAtlas getPlayerAtlas() {
+        return playerAtlas;
+    }
+
+    public TextureAtlas getSheepAtlas() {
+        return sheepAtlas;
     }
 }

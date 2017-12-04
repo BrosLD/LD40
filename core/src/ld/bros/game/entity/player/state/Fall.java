@@ -1,8 +1,11 @@
 package ld.bros.game.entity.player.state;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
+import ld.bros.game.main.Res;
 
 public class Fall extends PlayerState {
 
@@ -10,10 +13,18 @@ public class Fall extends PlayerState {
 
     public Fall(Player manager) {
         super(manager);
+
+        animation = new Animation<TextureRegion>(
+                0,
+                Res.get().getPlayerAtlas().findRegions("Jump"),
+                Animation.PlayMode.NORMAL
+        );
     }
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+
         // handle user input
         if(Controls.left())
             manager.vel.x = -manager.speed;
@@ -36,12 +47,8 @@ public class Fall extends PlayerState {
             doubleJump = true;
         }
 
-        super.update(delta);
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(manager.image, manager.pos.x, manager.pos.y);
+        checkPickUp();
+        handleFacing();
     }
 
     @Override
