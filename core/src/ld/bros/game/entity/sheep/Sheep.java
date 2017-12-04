@@ -63,6 +63,8 @@ public class Sheep extends Entity implements StateManager {
             TextDisplayer.get().print("Sheep::" + current());
             TextDisplayer.get().print("  - Position: " + pos);
             TextDisplayer.get().print("  - Target  : " + targetX);
+            TextDisplayer.get().print("  - HitWall : " + hitWall());
+            TextDisplayer.get().print("  - HitFloor: " + hitFloor());
         }
     }
 

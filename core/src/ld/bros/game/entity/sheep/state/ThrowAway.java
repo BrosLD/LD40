@@ -9,8 +9,6 @@ import ld.bros.game.main.Res;
 
 public class ThrowAway extends SheepState {
 
-    private boolean hitWall;
-
     public ThrowAway(Sheep manager) {
         super(manager);
 
@@ -32,9 +30,6 @@ public class ThrowAway extends SheepState {
     public void update(float delta) {
         super.update(delta);
 
-        if(hitWall)
-            manager.vel.x = 0f;
-
         manager.vel.y += manager.THROW_DAMPING * delta;
 //        if(manager.vel.y < manager.THROW_DAMPING) {
 //            manager.vel.y = manager.THROW_DAMPING;
@@ -42,7 +37,9 @@ public class ThrowAway extends SheepState {
 
         manager.move();
 
-        hitWall = manager.hitWall();
+        // bounce of wall on hit
+        if(manager.hitWall())
+            manager.vel.x = -1 * manager.currThrowXForce;
 
         if(manager.hitFloor()) {
             manager.vel.set(0f, 0f);

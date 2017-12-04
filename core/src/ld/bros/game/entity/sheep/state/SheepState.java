@@ -35,10 +35,23 @@ public abstract class SheepState extends EntityState<Sheep> {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(
-                animation.getKeyFrame(animationTimer, true),
-                manager.pos.x,
-                manager.pos.y
-        );
+        TextureRegion frame = animation.getKeyFrame(animationTimer, true);
+        if(manager.facingRight) {
+            // flip image
+            batch.draw(
+                    frame,
+                    manager.pos.x + frame.getRegionWidth(),
+                    manager.pos.y,
+                    -frame.getRegionWidth(),
+                    frame.getRegionHeight()
+            );
+        } else {
+            // draw regular
+            batch.draw(
+                    frame,
+                    manager.pos.x,
+                    manager.pos.y
+            );
+        }
     }
 }
