@@ -32,6 +32,7 @@ public class Res {
     private TextureAtlas playerAtlas;
     private TextureAtlas sheepAtlas;
     private TextureAtlas endzoneAtlas;
+    private TextureAtlas hudAtlas;
 
     private Res() {
         quickRegions = new HashMap<String, TextureRegion>();
@@ -40,6 +41,7 @@ public class Res {
         playerAtlas = new TextureAtlas(Gdx.files.internal("images/player.atlas"));
         sheepAtlas = new TextureAtlas(Gdx.files.internal("images/sheep.atlas"));
         endzoneAtlas = new TextureAtlas(Gdx.files.internal("images/endzone.atlas"));
+        hudAtlas = new TextureAtlas(Gdx.files.internal("images/hud.atlas"));
     }
 
     private void loadFonts() {
@@ -49,6 +51,13 @@ public class Res {
 //        params.borderWidth = 2f;
 //        params.borderColor = Color.WHITE;
         generateFont("default", "aldothe_apache.ttf", params);
+
+        params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 14;
+        params.color = Color.WHITE;
+        params.borderWidth = 2f;
+        params.borderColor = Color.BLACK;
+        generateFont("hud", "press_start_2p.ttf", params);
     }
 
     private void generateFont(String name, String path, FreeTypeFontGenerator.FreeTypeFontParameter params) {
@@ -88,6 +97,8 @@ public class Res {
         // dispose atlas
         playerAtlas.dispose();
         sheepAtlas.dispose();
+        endzoneAtlas.dispose();
+        hudAtlas.dispose();
     }
 
     public TextureAtlas getPlayerAtlas() {
@@ -100,5 +111,9 @@ public class Res {
 
     public TextureAtlas getEndzoneAtlas() {
         return endzoneAtlas;
+    }
+
+    public TextureAtlas getHudAtlas() {
+        return hudAtlas;
     }
 }

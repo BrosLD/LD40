@@ -15,6 +15,7 @@ import ld.bros.game.entity.EntityManager;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.entity.sheep.Sheep;
 import ld.bros.game.main.GameStateManager;
+import ld.bros.game.main.Hud;
 import ld.bros.game.main.State;
 
 public class MainState extends State<GameStateManager> {
@@ -24,6 +25,8 @@ public class MainState extends State<GameStateManager> {
 
     private EntityManager entities;
     private Player player;
+
+    private Hud hud;
 
     public MainState(GameStateManager manager) {
         super(manager);
@@ -67,6 +70,14 @@ public class MainState extends State<GameStateManager> {
                 endzone.height = currRect.getRectangle().height;
             }
         }
+
+        hud = new Hud();
+        hud.setCurrLevel("Playground");
+        hud.setScore(999999999L);
+        hud.setRemainingTime(500);
+        hud.setNumSheepClear(1);
+        hud.setNumSheepDead(1);
+        hud.setNumSheepRemaining(2);
     }
 
     @Override
@@ -77,6 +88,8 @@ public class MainState extends State<GameStateManager> {
         updateCamera();
 
         entities.update(delta);
+
+        hud.update(delta);
     }
 
     private void updateCamera() {
@@ -108,13 +121,15 @@ public class MainState extends State<GameStateManager> {
     public void render(SpriteBatch batch) {
         super.render(batch);
 
+        // render map
         renderer.setView(manager.getCamera());
         renderer.render();
         batch.end();
 
-        batch.begin();
 
+        batch.begin();
         entities.render(batch);
+        hud.render(batch);
     }
 
     public void levelEnd() {
