@@ -21,6 +21,8 @@ public abstract class Entity {
     // if we hit something beneath
     protected boolean onGround;
 
+    public boolean dead;
+
     public Entity(EntityManager manager) {
         this.manager = manager;
         this.manager.add(this);
@@ -80,6 +82,13 @@ public abstract class Entity {
 
                 break;
             }
+        }
+
+        // check if were out of bounds
+        if(pos.x - width < 0f
+                || pos.x > manager.getMapWidth()
+                || pos.y + height < 0f) {
+            dead = true;
         }
     }
 

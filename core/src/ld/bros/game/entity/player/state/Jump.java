@@ -2,7 +2,6 @@ package ld.bros.game.entity.player.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import jdk.nashorn.internal.runtime.RecompilableScriptFunctionData;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
 import ld.bros.game.main.Res;
@@ -29,9 +28,9 @@ public class Jump extends PlayerState {
 
         // handle user input
         if(Controls.left())
-            manager.vel.x = -manager.speed;
+            manager.vel.x = -manager.getSpeed();
         else if(Controls.right())
-            manager.vel.x = manager.speed;
+            manager.vel.x = manager.getSpeed();
         else
             manager.vel.x = 0f;
 
@@ -45,7 +44,7 @@ public class Jump extends PlayerState {
                 }
 
                 // apply jump speed
-                manager.vel.y = manager.jumpSpeed;
+                manager.vel.y = manager.getJumpSpeed();
             } else {
                 // jump button released - jump ends
                 reachedHigh = true;

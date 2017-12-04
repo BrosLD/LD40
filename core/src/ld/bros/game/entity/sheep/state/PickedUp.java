@@ -1,10 +1,8 @@
 package ld.bros.game.entity.sheep.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.sheep.Sheep;
 import ld.bros.game.main.Res;
 import ld.bros.game.main.Utils;
@@ -57,7 +55,14 @@ public class PickedUp extends SheepState {
             manager.fallDown();
         }
 
-        handleFacing();
+        //handleFacing();
+        // facing depends on player facing in this state
+        int direction = Utils.direction(manager.getPlayer().vel.x);
+        if(direction == -1) {
+            manager.facingRight = false;
+        } else if(direction == 1) {
+            manager.facingRight = true;
+        }
     }
 
     @Override

@@ -1,7 +1,6 @@
 package ld.bros.game.entity.player.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Controls;
@@ -24,13 +23,13 @@ public class Run extends PlayerState {
         super.update(delta);
 
         // apply gravity
-        manager.vel.y = manager.GRAVITY;
+        manager.vel.y = manager.getGravity();
 
         // handle user input
         if(Controls.left())
-            manager.vel.x = -manager.speed;
+            manager.vel.x = -manager.getSpeed();
         else if(Controls.right())
-            manager.vel.x = manager.speed;
+            manager.vel.x = manager.getSpeed();
         else {
             // switch to Idle-state
             manager.set(new Idle(manager));

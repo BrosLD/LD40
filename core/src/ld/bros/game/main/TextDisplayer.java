@@ -12,6 +12,8 @@ import java.util.List;
 // class for printing messages onto the screen
 public class TextDisplayer {
 
+    public static final boolean SHOW_MESSAGES = false;
+
     private static TextDisplayer instance;
 
     public static TextDisplayer get() {
@@ -45,6 +47,9 @@ public class TextDisplayer {
     }
 
     public void render(SpriteBatch batch) {
+
+        if(!SHOW_MESSAGES) return;
+
         previous = batch.getProjectionMatrix();
         batch.setProjectionMatrix(camera.combined);
 

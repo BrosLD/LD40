@@ -1,26 +1,38 @@
 package ld.bros.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import ld.bros.game.entity.player.Player;
+import ld.bros.game.entity.sheep.Sheep;
+import ld.bros.game.gamestates.MainState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntityManager {
 
+    private MainState state;
+
     private List<Entity> entityList;
 
     private TiledMap map;
 
-    public EntityManager() {
+    private int mapWidth;
+    private int mapHeight;
+
+    public EntityManager(MainState state) {
+        this.state = state;
+
         entityList = new ArrayList<Entity>();
     }
 
     public void update(float delta) {
+        // backwards iteration to allow removing elements during loop
         for(int i = entityList.size()-1; i >= 0; i--) {
             entityList.get(i).update(delta);
         }
@@ -147,6 +159,18 @@ public class EntityManager {
 
     public void setMap(TiledMap map) {
         this.map = map;
+
+        MapProperties prop = map.getProperties();
+        int mapWidth = prop.get("width", Integer.class);
+        int mapHeight = prop.get("height", Integer.class);
+        int tilePixelWidth = prop.get("tilewidth", Integer.class);
+        int tilePixelHeight = prop.get("tileheight", Integer.class);
+
+        int mapPixelWidth = mapWidth * tilePixelWidth;
+        int mapPixelHeight = mapHeight * tilePixelHeight;
+
+        this.mapWidth = mapPixelWidth;
+        this.mapHeight = mapPixelHeight;
     }
 
     public TiledMap getMap() {
@@ -161,7 +185,32 @@ public class EntityManager {
         entityList.remove(entity);
     }
 
+    public void removeSheep(Sheep s) {
+        entityList.remove(s);
+    }
+
     public List<Entity> getEntityList() {
         return entityList;
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public void sheepInEndzone(Sheep sheep) {
+        // TODO remove from list
+
+        // TODO create new sheep-in-endzone Marker
+
+        // TODO update hud (inform state)
+
+    }
+
+    public void playerInEndzone(Player player) {
+        state.levelEnd();
     }
 }

@@ -28,9 +28,9 @@ public class DoubleJump extends PlayerState {
 
         // handle user input
         if(Controls.left())
-            manager.vel.x = -manager.speed;
+            manager.vel.x = -manager.getSpeed();
         else if(Controls.right())
-            manager.vel.x = manager.speed;
+            manager.vel.x = manager.getSpeed();
         else
             manager.vel.x = 0f;
 
@@ -44,7 +44,7 @@ public class DoubleJump extends PlayerState {
                 }
 
                 // apply jump speed
-                manager.vel.y = manager.jumpSpeed;
+                manager.vel.y = manager.getJumpSpeed();
             } else {
                 // jump button released - jump ends
                 reachedHigh = true;

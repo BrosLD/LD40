@@ -2,6 +2,7 @@ package ld.bros.game.entity.player;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import ld.bros.game.entity.CallMarker;
 import ld.bros.game.entity.Entity;
 import ld.bros.game.entity.EntityManager;
 import ld.bros.game.entity.player.state.Idle;
@@ -19,10 +20,9 @@ import java.util.List;
 public class Player extends Entity implements StateManager {
 
     // PROPERTIES
-    public TextureRegion image;
-    public float speed = 5f;
+    private float speed = 5f;
 
-    public float jumpSpeed = 10f;
+    private float jumpSpeed = 10f;
     public final float MAX_JUMP_TIME = 0.25f;
     public final float MAX_DOUBLE_JUMP_TIME = 0.17f;
     public final float MAX_HIGH_TIME = 0.08f;
@@ -31,16 +31,21 @@ public class Player extends Entity implements StateManager {
     public final float PICK_UP_TIME = 0f;
     public final float THROW_TIME = 0f;
 
-    public final float GRAVITY = -9f;
+    private final float GRAVITY = -9f;
 
     public boolean facingRight;
 
-    public final float CALL_TIME = 1f;
+    public final float CALL_TIME = 0f;
+
+    // modifies speed values.
+    private final int MAX_NUMBER_OF_SHEEP = 6;
 
     //
     private Deque<State<?>> states;
 
     private List<Sheep> pickedSheep;
+
+    private CallMarker callMarker;
 
     public Player(EntityManager manager) {
         super(manager);
@@ -48,10 +53,8 @@ public class Player extends Entity implements StateManager {
         states = new ArrayDeque<State<?>>();
         set(new Idle(this));
 
-        image = Res.get().quick("dummy/dummy_player.png");
-
-        width = image.getRegionWidth();
-        height = image.getRegionHeight();
+        width = 32f;
+        height = 64f;
 
         pickedSheep = new ArrayList<Sheep>();
     }
@@ -98,35 +101,31 @@ public class Player extends Entity implements StateManager {
         return vertical;
     }
 
-    public boolean entityContact() {
-        return manager.collisionWithEntity(this) != null;
-    }
-
     public void pickUp() {
         Entity other = manager.collisionWithEntity(this);
         if(other != null && other instanceof Sheep) {
             Sheep s = (Sheep) other;
 
-            // only pick up sheep if it's in its Idle state
-            if(s.current() instanceof ld.bros.game.entity.sheep.state.Idle) {
-                // check if sheep can be picked up
-                if(s.canBePickedUp(this))
-                    s.pickUp(this);
-                    pickedSheep.add(s);
-            }
+            // check if sheep can be picked up
+            if(s.canBePickedUp(this))
+                s.pickUp(this);
+                pickedSheep.add(s);
         }
     }
 
     public boolean canPickUp() {
+
+        if(getNumberOfSheep() >= MAX_NUMBER_OF_SHEEP) {
+            // we already carry to much Sheep
+            return false;
+        }
+
         Entity other = manager.collisionWithEntity(this);
         if(other != null && other instanceof Sheep) {
             Sheep s = (Sheep) other;
 
-            // only pick up sheep if it's in its Idle state
-            if(s.current() instanceof ld.bros.game.entity.sheep.state.Idle) {
-                // check if sheep can be picked up
-                return s.canBePickedUp(this);
-            }
+            // check if sheep can be picked up
+            return s.canBePickedUp(this);
         }
 
         return false;
@@ -157,5 +156,27 @@ public class Player extends Entity implements StateManager {
                 s.callSheep(this.pos.x);
             }
         }
+
+        // create call marker on current position
+        if(callMarker != null) {
+            manager.remove(callMarker);
+        }
+        callMarker = new CallMarker(manager, pos.cpy(), facingRight);
+    }
+
+    public float getSpeed() {
+        return speed * calcModifier();
+    }
+
+    public float getJumpSpeed() {
+        return jumpSpeed * calcModifier();
+    }
+
+    public float getGravity() {
+        return GRAVITY * calcModifier();
+    }
+
+    private float calcModifier() {
+        return (1 - (getNumberOfSheep() / (float)MAX_NUMBER_OF_SHEEP));
     }
 }

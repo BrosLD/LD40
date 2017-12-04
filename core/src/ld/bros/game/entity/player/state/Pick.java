@@ -1,9 +1,7 @@
 package ld.bros.game.entity.player.state;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import ld.bros.game.entity.EntityState;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.main.Res;
 
@@ -36,12 +34,6 @@ public class Pick extends PlayerState {
             manager.removeFirst();
         }
     }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(manager.image, manager.pos.x, manager.pos.y);
-    }
-
     @Override
     public String toString() {
         return "Pick";

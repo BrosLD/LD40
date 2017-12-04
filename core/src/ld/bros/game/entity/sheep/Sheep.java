@@ -37,6 +37,8 @@ public class Sheep extends Entity implements StateManager {
 
     public boolean facingRight;
 
+    public final float CALL_DISTANCE = 300f;
+
     //
     private Player player;
 
@@ -65,6 +67,10 @@ public class Sheep extends Entity implements StateManager {
             TextDisplayer.get().print("  - Target  : " + targetX);
             TextDisplayer.get().print("  - HitWall : " + hitWall());
             TextDisplayer.get().print("  - HitFloor: " + hitFloor());
+        }
+
+        if(dead) {
+            manager.remove(this);
         }
     }
 
@@ -123,7 +129,12 @@ public class Sheep extends Entity implements StateManager {
             return false;
         }
 
-        return true;
+        // check current state
+        if(current() instanceof Idle
+                || current() instanceof Call)
+            return true;
+
+        return false;
     }
 
     public void alignToPlayer() {
@@ -172,6 +183,11 @@ public class Sheep extends Entity implements StateManager {
     }
 
     public void callSheep(float targetX) {
+
+        // if distance to play is to big, do not follow
+        if(Math.abs(targetX - pos.x) > CALL_DISTANCE)
+            return;
+
         this.targetX = targetX;
         set(new Call(this));
     }

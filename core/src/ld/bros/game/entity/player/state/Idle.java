@@ -24,7 +24,7 @@ public class Idle extends PlayerState {
         super.update(delta);
 
         // apply gravity
-        manager.vel.y = manager.GRAVITY;
+        manager.vel.y = manager.getGravity();
         manager.vel.x = 0f;
 
         if(Controls.left() || Controls.right()) {

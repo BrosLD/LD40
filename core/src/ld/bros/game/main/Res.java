@@ -31,6 +31,7 @@ public class Res {
     // atlas
     private TextureAtlas playerAtlas;
     private TextureAtlas sheepAtlas;
+    private TextureAtlas endzoneAtlas;
 
     private Res() {
         quickRegions = new HashMap<String, TextureRegion>();
@@ -38,6 +39,7 @@ public class Res {
 
         playerAtlas = new TextureAtlas(Gdx.files.internal("images/player.atlas"));
         sheepAtlas = new TextureAtlas(Gdx.files.internal("images/sheep.atlas"));
+        endzoneAtlas = new TextureAtlas(Gdx.files.internal("images/endzone.atlas"));
     }
 
     private void loadFonts() {
@@ -94,5 +96,9 @@ public class Res {
 
     public TextureAtlas getSheepAtlas() {
         return sheepAtlas;
+    }
+
+    public TextureAtlas getEndzoneAtlas() {
+        return endzoneAtlas;
     }
 }

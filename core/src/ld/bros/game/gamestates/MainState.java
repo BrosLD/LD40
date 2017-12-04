@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import ld.bros.game.LudumDare40;
+import ld.bros.game.entity.Endzone;
 import ld.bros.game.entity.EntityManager;
 import ld.bros.game.entity.player.Player;
 import ld.bros.game.entity.sheep.Sheep;
@@ -28,7 +29,8 @@ public class MainState extends State<GameStateManager> {
         super(manager);
 
         // load map
-        String m = "dummy/dummy_map.tmx";
+//        String m = "dummy/dummy_map.tmx";
+        String m = "level/playground.tmx";
         map =  new TmxMapLoader().load(m);
         renderer = new OrthogonalTiledMapRenderer(map);
 
@@ -36,7 +38,7 @@ public class MainState extends State<GameStateManager> {
         MapLayer spawnPoints = map.getLayers().get("entity");
 
         // set up EntityManager
-        entities = new EntityManager();
+        entities = new EntityManager(this);
         entities.setMap(map);
 
         // create player
@@ -54,6 +56,16 @@ public class MainState extends State<GameStateManager> {
                 Sheep sheep = new Sheep(entities);
                 sheep.pos.set(currRect.getRectangle().x, currRect.getRectangle().y);
             }
+
+            if("endzone".equals(curr.getName())) {
+                // current object defines endzone
+                RectangleMapObject currRect = (RectangleMapObject) curr;
+
+                Endzone endzone = new Endzone(entities);
+                endzone.pos.set(currRect.getRectangle().x, currRect.getRectangle().y);
+                endzone.width = currRect.getRectangle().width;
+                endzone.height = currRect.getRectangle().height;
+            }
         }
     }
 
@@ -68,17 +80,12 @@ public class MainState extends State<GameStateManager> {
     }
 
     private void updateCamera() {
-        MapProperties prop = map.getProperties();
-        int mapWidth = prop.get("width", Integer.class);
-        int mapHeight = prop.get("height", Integer.class);
-        int tilePixelWidth = prop.get("tilewidth", Integer.class);
-        int tilePixelHeight = prop.get("tileheight", Integer.class);
-
-        int mapPixelWidth = mapWidth * tilePixelWidth;
-        int mapPixelHeight = mapHeight * tilePixelHeight;
 
         manager.getCamera().position.x = player.pos.x;
         manager.getCamera().position.y = player.pos.y;
+
+        int mapPixelWidth = entities.getMapWidth();
+        int mapPixelHeight = entities.getMapHeight();
 
         // bound camera to map bounds
         // horizontal
@@ -108,5 +115,9 @@ public class MainState extends State<GameStateManager> {
         batch.begin();
 
         entities.render(batch);
+    }
+
+    public void levelEnd() {
+
     }
 }
