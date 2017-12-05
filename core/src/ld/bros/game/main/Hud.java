@@ -60,6 +60,8 @@ public class Hud {
         sheep = Res.get().getHudAtlas().findRegion("sheep");
         sheepClear = Res.get().getHudAtlas().findRegion("sheep_ok");
         sheepDead = Res.get().getHudAtlas().findRegion("sheep_dead");
+
+        setScore(0L);
     }
 
     public void update(float delta) {

@@ -53,6 +53,11 @@ public class Run extends PlayerState {
             manager.push(new Pick(manager));
         }
 
+        if(Controls.callTapped()) {
+            // call sheep
+            manager.set(new Call(manager));
+        }
+
         checkPickUp();
         handleFacing();
     }

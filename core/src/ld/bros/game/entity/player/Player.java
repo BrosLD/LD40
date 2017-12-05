@@ -1,13 +1,11 @@
 package ld.bros.game.entity.player;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import ld.bros.game.entity.CallMarker;
 import ld.bros.game.entity.Entity;
 import ld.bros.game.entity.EntityManager;
 import ld.bros.game.entity.player.state.Idle;
 import ld.bros.game.entity.sheep.Sheep;
-import ld.bros.game.main.Res;
 import ld.bros.game.main.State;
 import ld.bros.game.main.StateManager;
 import ld.bros.game.main.TextDisplayer;
@@ -65,6 +63,9 @@ public class Player extends Entity implements StateManager {
         TextDisplayer.get().print("Player::" + current());
         TextDisplayer.get().print("  - FacingRight: " + facingRight);
         TextDisplayer.get().print("  - #Sheeps: " + getNumberOfSheep());
+
+        if(dead)
+            manager.resetPlayer();
     }
 
     @Override
@@ -165,15 +166,17 @@ public class Player extends Entity implements StateManager {
     }
 
     public float getSpeed() {
-        return speed * calcModifier();
+        float r = speed * calcModifier();
+        return Math.max(r, 1f);
     }
 
     public float getJumpSpeed() {
-        return jumpSpeed * calcModifier();
+        float r = jumpSpeed * calcModifier();;
+        return Math.max(r, 1f);
     }
 
     public float getGravity() {
-        return GRAVITY * calcModifier();
+        return GRAVITY * (1 + (getNumberOfSheep() / (float)MAX_NUMBER_OF_SHEEP));
     }
 
     private float calcModifier() {

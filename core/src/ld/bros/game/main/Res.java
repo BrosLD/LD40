@@ -34,6 +34,14 @@ public class Res {
     private TextureAtlas endzoneAtlas;
     private TextureAtlas hudAtlas;
 
+    private TextureRegion pixelImage;
+
+    private TextureRegion scoreBackground;
+
+    private TextureRegion startScreen;
+    private TextureRegion gameOverScreen;
+    private TextureRegion gameOverOverScreen;
+
     private Res() {
         quickRegions = new HashMap<String, TextureRegion>();
         loadFonts();
@@ -42,6 +50,15 @@ public class Res {
         sheepAtlas = new TextureAtlas(Gdx.files.internal("images/sheep.atlas"));
         endzoneAtlas = new TextureAtlas(Gdx.files.internal("images/endzone.atlas"));
         hudAtlas = new TextureAtlas(Gdx.files.internal("images/hud.atlas"));
+
+        pixelImage = new TextureRegion(new Texture("images/pixel.png"));
+
+        startScreen = new TextureRegion(new Texture("images/title_screen.png"));
+        gameOverScreen = new TextureRegion(new Texture("images/game_over.png"));
+
+        scoreBackground = new TextureRegion((new Texture("images/score_background.png")));
+
+        gameOverOverScreen = new TextureRegion(new Texture("images/game_over_over.png"));
     }
 
     private void loadFonts() {
@@ -58,6 +75,16 @@ public class Res {
         params.borderWidth = 2f;
         params.borderColor = Color.BLACK;
         generateFont("hud", "press_start_2p.ttf", params);
+
+        params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 55;
+        params.color = Color.BLACK;
+        generateFont("large", "press_start_2p.ttf", params);
+
+        params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 30;
+        params.color = Color.BLACK;
+        generateFont("medium", "press_start_2p.ttf", params);
     }
 
     private void generateFont(String name, String path, FreeTypeFontGenerator.FreeTypeFontParameter params) {
@@ -99,6 +126,14 @@ public class Res {
         sheepAtlas.dispose();
         endzoneAtlas.dispose();
         hudAtlas.dispose();
+
+        pixelImage.getTexture().dispose();
+
+        startScreen.getTexture().dispose();
+        gameOverScreen.getTexture().dispose();
+
+        scoreBackground.getTexture().dispose();
+        gameOverOverScreen.getTexture().dispose();
     }
 
     public TextureAtlas getPlayerAtlas() {
@@ -115,5 +150,25 @@ public class Res {
 
     public TextureAtlas getHudAtlas() {
         return hudAtlas;
+    }
+
+    public TextureRegion pixel() {
+        return pixelImage;
+    }
+
+    public TextureRegion getStartScreen() {
+        return startScreen;
+    }
+
+    public TextureRegion getGameOverScreen() {
+        return gameOverScreen;
+    }
+
+    public TextureRegion getScoreBackground() {
+        return scoreBackground;
+    }
+
+    public TextureRegion getGameOverOverScreen() {
+        return gameOverOverScreen;
     }
 }

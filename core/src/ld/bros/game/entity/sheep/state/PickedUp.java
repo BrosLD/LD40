@@ -57,11 +57,13 @@ public class PickedUp extends SheepState {
 
         //handleFacing();
         // facing depends on player facing in this state
-        int direction = Utils.direction(manager.getPlayer().vel.x);
-        if(direction == -1) {
-            manager.facingRight = false;
-        } else if(direction == 1) {
-            manager.facingRight = true;
+        if(manager.getPlayer() != null) {
+            int direction = Utils.direction(manager.getPlayer().vel.x);
+            if (direction == -1) {
+                manager.facingRight = false;
+            } else if (direction == 1) {
+                manager.facingRight = true;
+            }
         }
     }
 

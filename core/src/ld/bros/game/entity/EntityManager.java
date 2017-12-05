@@ -20,6 +20,10 @@ public class EntityManager {
 
     private List<Entity> entityList;
 
+    private List<Sheep> sheepList;
+    private int numSheepClear;
+    private int numSheepDead;
+
     private TiledMap map;
 
     private int mapWidth;
@@ -29,6 +33,7 @@ public class EntityManager {
         this.state = state;
 
         entityList = new ArrayList<Entity>();
+        sheepList = new ArrayList<Sheep>();
     }
 
     public void update(float delta) {
@@ -179,14 +184,25 @@ public class EntityManager {
 
     public void add(Entity entity) {
         entityList.add(entity);
+
+        if(entity instanceof Sheep) {
+            sheepList.add((Sheep)entity);
+        }
     }
 
     public void remove(Entity entity) {
         entityList.remove(entity);
+
+        if(entity instanceof Sheep) {
+            sheepList.remove(entity);
+        }
     }
 
     public void removeSheep(Sheep s) {
         entityList.remove(s);
+        sheepList.remove(s);
+        numSheepDead++;
+        state.updateHud();
     }
 
     public List<Entity> getEntityList() {
@@ -202,15 +218,40 @@ public class EntityManager {
     }
 
     public void sheepInEndzone(Sheep sheep) {
-        // TODO remove from list
+        // remove from list
+        remove(sheep);
+        numSheepClear++;
 
         // TODO create new sheep-in-endzone Marker
 
-        // TODO update hud (inform state)
-
+        // update hud (inform state)
+        state.updateHud();
     }
 
     public void playerInEndzone(Player player) {
         state.levelEnd();
+    }
+
+    public int getNumberSheep() {
+        return sheepList.size();
+    }
+
+    public int getNumSheepClear() {
+        return numSheepClear;
+    }
+
+    public int getNumSheepDead() {
+        return numSheepDead;
+    }
+
+    public void resetPlayer() {
+        state.resetPlayer();
+    }
+
+    public void clear() {
+        entityList.clear();
+        sheepList.clear();
+        numSheepClear = 0;
+        numSheepDead = 0;
     }
 }

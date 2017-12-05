@@ -29,4 +29,8 @@ public class Controls {
     public static boolean callTapped() {
         return Gdx.input.isKeyJustPressed(Input.Keys.V);
     }
+
+    public static boolean reset() {
+        return Gdx.input.isKeyJustPressed(Input.Keys.R);
+    }
 }

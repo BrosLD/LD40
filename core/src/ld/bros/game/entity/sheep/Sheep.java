@@ -53,24 +53,27 @@ public class Sheep extends Entity implements StateManager {
         set(new Idle(this));
 
         image = Res.get().quick("dummy/dummy_sheep.png");
-        width = image.getRegionWidth();
-        height = image.getRegionHeight();
+
+//        width = image.getRegionWidth();
+//        height = image.getRegionHeight();
+        width = 32f;
+        height = 32f;
     }
 
     @Override
     public void update(float delta) {
         current().update(delta);
 
-        if(localId == 1) {
+//        if(localId == 1) {
             TextDisplayer.get().print("Sheep::" + current());
             TextDisplayer.get().print("  - Position: " + pos);
             TextDisplayer.get().print("  - Target  : " + targetX);
             TextDisplayer.get().print("  - HitWall : " + hitWall());
             TextDisplayer.get().print("  - HitFloor: " + hitFloor());
-        }
+//        }
 
         if(dead) {
-            manager.remove(this);
+            manager.removeSheep(this);
         }
     }
 
